@@ -8,6 +8,7 @@ from wtforms import (
     SubmitField
 )
 
+
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[validators.DataRequired(message="User name is required")])
     password = PasswordField("Password", validators=[
@@ -16,6 +17,7 @@ class LoginForm(FlaskForm):
     ])
     remember = BooleanField("Remember")
     submit = SubmitField("Log In")
+
 
 class RegisterForm(LoginForm):
     email = EmailField("Email", validators=[validators.DataRequired(message="Email is required"), validators.Email()])

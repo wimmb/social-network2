@@ -8,6 +8,7 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 migrate = Migrate()
 
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -22,7 +23,10 @@ def create_app():
     from .auth import bp as auth_bp
     app.register_blueprint(auth_bp)
 
-    from .models import User
+    from .faker import bp as fake_bp
+    app.register_blueprint(fake_bp)
+
+    from . import models # noqa
 
     @app.context_processor
     def context_processor():
@@ -34,4 +38,3 @@ def create_app():
 
 
 app = create_app()
-from .main import routes

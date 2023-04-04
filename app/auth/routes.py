@@ -11,6 +11,7 @@ def login():
         return redirect(url_for("main.index"))
     return render_template("auth/login.html", form=form)
 
+
 @bp.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()

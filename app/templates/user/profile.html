@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% set active_page = 'profile' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-5">
+                        <h4 class="text-center mb-4">User info</h4>
+                        <p><b>Username:</b> {{user.username}}</p>
+                        <p><b>Email:</b> {{user.email}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-5">
+                        <h4 class="text-center mb-4">Profile info</h4>
+                        {% if user.profile.first_name %}
+                        <p><b>First name:</b> {{user.profile.first_name}}</p>
+                        {% else %}
+                        <p><b>First name:</b> <i class="cl-red">not indicated</i></p>
+                        {% endif %}
+                        {% if user.profile.last_name %}
+                        <p><b>Last name:</b> {{user.profile.last_name}}</p>
+                        {% else %}
+                        <p><b>Last name:</b> <i class="cl-red">not indicated</i></p>
+                        {% endif %}
+                        {% if user.profile.linkedin_url %}
+                        <p><b>LinkedIn:</b> <a href="{{user.profile.linkedin_url}}" target="_blank">{{user.profile.linkedin_url}}</a></p>
+                        {% else %}
+                        <p><b>LinkedIn:</b> <i class="cl-red">not indicated</i></p>
+                        {% endif %}
+                        {% if user.profile.facebook_url %}
+                        <p><b>Facebook:</b> <a href="{{user.profile.facebook_url}}" target="_blank">{{user.profile.facebook_url}}</a></p>
+                        {% else %}
+                        <p><b>Facebook:</b> <i class="cl-red">not indicated</i></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

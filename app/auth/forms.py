@@ -25,4 +25,8 @@ class RegisterForm(LoginForm):
         validators.DataRequired(message="Confirm password is required"),
         validators.EqualTo("password", message="Password should match")
     ])
+    first_name = StringField("First name")
+    last_name = StringField("Last name")
+    linkedin_url = StringField("LinkedIn Url")
+    facebook_url = StringField("Facebook Url")
     submit = SubmitField("Register")

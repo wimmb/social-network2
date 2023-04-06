@@ -4,7 +4,7 @@ from .forms import LoginForm, RegisterForm
 from flask_login import current_user, login_user, logout_user
 
 from .. import db
-from ..models import User
+from ..models import User, Profile
 
 
 @bp.route("/login", methods=["GET", "POST"])
@@ -22,7 +22,7 @@ def login():
 
         login_user(user, remember=form.remember.data)
 
-        return redirect(url_for("main.index"))
+        return redirect(url_for("user.profile", username=user.username))
 
     return render_template("auth/login.html", form=form)
 
@@ -42,11 +42,26 @@ def register():
             flash(f"This email ({form.username.data}) is already taken!", category="error")
             return redirect(url_for("auth.register"))
 
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(
+            username=form.username.data,
+            email=form.email.data
+        )
         user.set_password(form.password.data)
 
         db.session.add(user)
         db.session.commit()
+
+        profile = Profile(
+            user_id=user.id,
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            linkedin_url=form.linkedin_url.data,
+            facebook_url=form.facebook_url.data
+        )
+
+        db.session.add(profile)
+        db.session.commit()
+
         flash("Successfully registered!", category="success")
 
         return redirect(url_for("auth.login"))

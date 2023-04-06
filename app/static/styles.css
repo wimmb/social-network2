@@ -6,6 +6,18 @@ body {
     background: #f1f1f1;
 }
 
+p {
+    margin-bottom: 0.3rem;
+}
+
+.cl-red {
+    color: brown;
+}
+
+.navbar-nav .active a {
+    color: #ffffff;
+}
+
 .btn-send {
     background: #333;
     color: #fff;
@@ -22,4 +34,8 @@ body {
 form .alert {
     padding: 0.2rem 1rem;
     font-size: 12px;
+}
+
+.card {
+    height: 100%;
 }

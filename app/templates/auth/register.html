@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% set active_page = 'register' %}
 
 {% block title %}Register{% endblock %}
 
 {% block content %}
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-6">
+      <div class="col-lg-10">
         <div class="card border-0 shadow">
           <div class="card-body p-5">
             <h2 class="text-center mb-4">Register</h2>
@@ -13,34 +14,57 @@
               <div class="alert alert-danger">{{ error }}</div>
             {% endif %}
             <form method="post" novalidate>
-              {{ form.hidden_tag() }}
-              <div class="form-group mb-3">
-                {{ form.username.label(class="form-label") }}
-                {{ form.username(class="form-control") }}
-                {% for error in form.username.errors %}
-                  <div class="alert alert-danger">{{ error }}</div>
-                {% endfor %}
-              </div>
-              <div class="form-group mb-3">
-                {{ form.email.label(class="form-label") }}
-                {{ form.email(class="form-control") }}
-                {% for error in form.email.errors %}
-                  <div class="alert alert-danger">{{ error }}</div>
-                {% endfor %}
-              </div>
-              <div class="form-group mb-3">
-                {{ form.password.label(class="form-label") }}
-                {{ form.password(class="form-control") }}
-                {% for error in form.password.errors %}
-                  <div class="alert alert-danger">{{ error }}</div>
-                {% endfor %}
-              </div>
-              <div class="form-group mb-4">
-                {{ form.confirm_password.label(class="form-label") }}
-                {{ form.confirm_password(class="form-control") }}
-                {% for error in form.confirm_password.errors %}
-                  <div class="alert alert-danger">{{ error }}</div>
-                {% endfor %}
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  {{ form.hidden_tag() }}
+                  <div class="form-group mb-3">
+                    {{ form.username.label(class="form-label") }} *
+                    {{ form.username(class="form-control") }}
+                    {% for error in form.username.errors %}
+                      <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                  <div class="form-group mb-3">
+                    {{ form.email.label(class="form-label") }} *
+                    {{ form.email(class="form-control") }}
+                    {% for error in form.email.errors %}
+                      <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                  <div class="form-group mb-3">
+                    {{ form.password.label(class="form-label") }} *
+                    {{ form.password(class="form-control") }}
+                    {% for error in form.password.errors %}
+                      <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                  <div class="form-group mb-4">
+                    {{ form.confirm_password.label(class="form-label") }} *
+                    {{ form.confirm_password(class="form-control") }}
+                    {% for error in form.confirm_password.errors %}
+                      <div class="alert alert-danger">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12">
+                  <div class="form-group mb-3">
+                    {{ form.first_name.label(class="form-label") }}
+                    {{ form.first_name(class="form-control") }}
+                  </div>
+                  <div class="form-group mb-3">
+                    {{ form.last_name.label(class="form-label") }}
+                    {{ form.last_name(class="form-control") }}
+                  </div>
+                  <div class="form-group mb-3">
+                    {{ form.linkedin_url.label(class="form-label") }}
+                    {{ form.linkedin_url(class="form-control") }}
+                  </div>
+                  <div class="form-group mb-4">
+                    {{ form.facebook_url.label(class="form-label") }}
+                    {{ form.facebook_url(class="form-control") }}
+                  </div>
+                </div>
               </div>
               <div class="form-group">
                 <button type="submit" class="btn btn-send">Register</button>

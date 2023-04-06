@@ -10,7 +10,7 @@ from app.models import User
 def index():
     users = db.session.query(User).all()
     context = {
-        "title": "Home page",
+        "title": "Social Network",
         "users": users
     }
     return render_template("index.html", **context)

@@ -4,10 +4,7 @@
 {% block title %}Home page{% endblock %}
 
 {% block content %}
-    <h5>DB users:</h5>
-    <ul>
-    {% for user in users %}
-        <li>{{user.username}} | <i>{{user.email}}</i></li>
+    {% for post in posts %}
+        {% include '_post.html' %}
     {% endfor %}
-    </ul>
 {% endblock %}

@@ -30,6 +30,11 @@
                 <li class="nav-item{% if active_page == 'about' %} active{% endif %}">
                     <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
                 </li>
+                {% if current_user.is_authenticated %}
+                <li class="nav-item{% if active_page == 'blog' %} active{% endif %}">
+                    <a class="nav-link" href="{{ url_for('user.blog') }}">My posts</a>
+                </li>
+                {% endif %}
             </ul>
             <ul class="navbar-nav ms-auto">
                 {% if not current_user.is_authenticated %}

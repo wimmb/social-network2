@@ -4,40 +4,133 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container c_prof">
         <div class="row">
-            <div class="col-lg-6 col-md-12 mb-4">
+            <div class="col-xl-4 col-lg-12 mb-4">
                 <div class="card border-0 shadow">
-                    <div class="card-body p-5">
+                    <div class="card-body text-center p-5">
                         <h4 class="text-center mb-4">User info</h4>
+                        <div class="pr_ava"><img src="{{ user.avatar(128) }}" class="img-thumbnail mb-3" alt=""></div>
                         <p><b>Username:</b> {{user.username}}</p>
                         <p><b>Email:</b> {{user.email}}</p>
+                        <p class="small"><i>Last seen: {{ user.profile.last_seen.strftime('%Y-%m-%d %H:%M') }}</i></p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-12 mb-4">
+            <div class="col-xl-8 col-lg-12 mb-4">
                 <div class="card border-0 shadow">
                     <div class="card-body p-5">
                         <h4 class="text-center mb-4">Profile info</h4>
-                        {% if user.profile.first_name %}
-                        <p><b>First name:</b> {{user.profile.first_name}}</p>
+
+                        {% if user == current_user %}
+
+                        <form method="post" action="{{ url_for('user.profile', username=user.username) }}">
+                            {{ form.csrf_token }}
+                            <div class="form-group row mb-3">
+                                <label for="inputFirstName" class="col-md-2 col-form-label"><b>First Name</b></label>
+                                <div class="col-md-10">
+                                    {{ form.first_name(class="form-control", id="inputFirstName") }}
+                                    {% for error in form.first_name.errors %}
+                                        <div class="alert alert-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="inputLastName" class="col-md-2 col-form-label"><b>Last Name</b></label>
+                                <div class="col-md-10">
+                                    {{ form.last_name(class="form-control", id="inputLastName") }}
+                                    {% for error in form.last_name.errors %}
+                                        <div class="alert alert-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="inputLinkedin" class="col-md-2 col-form-label"><b>LinkedIn</b></label>
+                                <div class="col-md-10">
+                                    {{ form.linkedin_url(class="form-control", id="inputLinkedin") }}
+                                    {% for error in form.linkedin_url.errors %}
+                                        <div class="alert alert-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="inputFacebook" class="col-md-2 col-form-label"><b>Facebook</b></label>
+                                <div class="col-md-10">
+                                    {{ form.facebook_url(class="form-control", id="inputFacebook") }}
+                                    {% for error in form.facebook_url.errors %}
+                                        <div class="alert alert-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label for="inputBio" class="col-md-2 col-form-label"><b>About Me</b></label>
+                                <div class="col-md-10">
+                                    {{ form.bio(class="form-control", id="inputBio") }}
+                                    {% for error in form.bio.errors %}
+                                        <div class="alert alert-danger">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12 right">
+                                    <button type="submit" class="btn btn-send">Save</button>
+                                </div>
+                            </div>
+                        </form>
+
                         {% else %}
-                        <p><b>First name:</b> <i class="cl-red">not indicated</i></p>
+
+                        {% if user.profile.first_name %}
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <b>First name:</b>
+                            </div>
+                            <div class="col-md-10">
+                                <p>{{user.profile.first_name}}</p>
+                            </div>
+                        </div>
                         {% endif %}
                         {% if user.profile.last_name %}
-                        <p><b>Last name:</b> {{user.profile.last_name}}</p>
-                        {% else %}
-                        <p><b>Last name:</b> <i class="cl-red">not indicated</i></p>
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <b>Last name:</b>
+                            </div>
+                            <div class="col-md-10">
+                                <p>{{user.profile.last_name}}</p>
+                            </div>
+                        </div>
                         {% endif %}
                         {% if user.profile.linkedin_url %}
-                        <p><b>LinkedIn:</b> <a href="{{user.profile.linkedin_url}}" target="_blank">{{user.profile.linkedin_url}}</a></p>
-                        {% else %}
-                        <p><b>LinkedIn:</b> <i class="cl-red">not indicated</i></p>
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <b>LinkedIn:</b>
+                            </div>
+                            <div class="col-md-10">
+                                <p><a href="{{user.profile.linkedin_url}}" target="_blank">{{user.profile.linkedin_url}}</a></p>
+                            </div>
+                        </div>
                         {% endif %}
                         {% if user.profile.facebook_url %}
-                        <p><b>Facebook:</b> <a href="{{user.profile.facebook_url}}" target="_blank">{{user.profile.facebook_url}}</a></p>
-                        {% else %}
-                        <p><b>Facebook:</b> <i class="cl-red">not indicated</i></p>
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <b>Facebook:</b>
+                            </div>
+                            <div class="col-md-10">
+                                <p><a href="{{user.profile.facebook_url}}" target="_blank">{{user.profile.facebook_url}}</a></p>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if user.profile.bio %}
+                        <div class="row mb-3">
+                            <div class="col-md-2">
+                                <b>About me:</b>
+                            </div>
+                            <div class="col-md-10">
+                                <p>{{user.profile.bio}}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+
                         {% endif %}
                     </div>
                 </div>

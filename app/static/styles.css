@@ -14,6 +14,10 @@ p {
     color: brown;
 }
 
+.right {
+    text-align: right;
+}
+
 .navbar-nav .active a {
     color: #ffffff;
 }
@@ -36,6 +40,11 @@ form .alert {
     font-size: 12px;
 }
 
-.card {
+.c_prof .card {
     height: 100%;
+}
+
+.us_logo {
+    display: inline-block;
+    margin-right: 5px;
 }

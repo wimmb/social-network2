@@ -21,9 +21,13 @@ def create():
             flash('Your post has been created!', 'success')
         else:
             title = form.title.data
+            content = form.content.data
 
             if not title or len(title) < 2:
                 flash('Title must be at least 3 characters long', category="error")
+
+            if not content or len(content) < 10:
+                flash('Content must be at least 10 characters long', category="error")
 
         return redirect(url_for("user.blog"))
     return render_template('user/blog.html', title='Create Post', form=form)

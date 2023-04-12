@@ -4,7 +4,27 @@
 {% block title %}Home page{% endblock %}
 
 {% block content %}
-    {% for post in posts %}
-        {% include '_post.html' %}
-    {% endfor %}
+    <div class="row">
+        <div class="col-lg-8">
+            {% for post in posts %}
+                {% include '_post.html' %}
+            {% endfor %}
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">All users</h5>
+                    {% for user in users %}
+                        <div class="d-flex align-items-center us_info">
+                            <a href="{{ url_for('user.profile', username=user.username) }}" class="us_logo">
+                                <img src="{{ user.avatar(32) }}" class="rounded-circle">
+                                <span class="us_name">{{ user.username }}</span>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

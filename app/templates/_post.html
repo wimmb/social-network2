@@ -11,16 +11,16 @@
     <div class="card-footer">
         <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
-                <a href="{{ url_for('post.like', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
+                <a href="{{ url_for('post.like', post_id=post.id) }}" class="btn btn-sm btn-outline-success">
                     <i class="fas fa-thumbs-up"></i>
                     {{ post.likes|length }}
                 </a>
-                <a href="{{ url_for('post.dislike', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
+                <a href="{{ url_for('post.dislike', post_id=post.id) }}" class="btn btn-sm btn-outline-danger">
                     <i class="fas fa-thumbs-down"></i> {{ post.dislikes|length }}
                 </a>
                 {% if request.path == url_for('user.blog') %}
                     {% if current_user == post.author %}
-                        <a href="{{ url_for('post.delete', post_id=post.id) }}" class="btn btn-sm btn-outline-danger">
+                        <a href="{{ url_for('post.delete', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
                             <i class="fas fa-trash-alt"></i> Delete
                         </a>
                     {% endif %}

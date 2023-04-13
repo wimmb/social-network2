@@ -15,7 +15,7 @@
                         <p><b>Email:</b> {{user.email}}</p>
                         <p class="small"><i>Last seen: {{ user.profile.last_seen.strftime('%Y-%m-%d %H:%M') }}</i></p>
                         {% if user != current_user %}
-                            {% if user.is_following() %}
+                            {% if user.is_following(current_user.id) %}
                             <p><a href="{{ url_for('user.unfollow', user_id=user.id) }}" class="btn bg-green btn-unfl mt-3">Unfollow</a></p>
                             {% else %}
                             <p><a href="{{ url_for('user.follow', user_id=user.id) }}" class="btn bg-green btn-fl mt-3">Follow</a></p>
@@ -139,6 +139,40 @@
                         {% endif %}
 
                         {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-5">
+                        <h4 class="mb-3">Followers:</h4>
+                        {% for follower in followers %}
+                        <div class="d-flex align-items-center us_info">
+                            <a href="{{ url_for('user.profile', username=follower.username) }}" class="us_logo">
+                                <img src="{{ follower.avatar(32) }}" class="rounded-circle">
+                                <span class="us_name">{{ follower.username }}</span>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-5">
+                        <h4 class="mb-3">Followees:</h4>
+                        {% for followee in followees %}
+                        <div class="d-flex align-items-center us_info">
+                            <a href="{{ url_for('user.profile', username=followee.username) }}" class="us_logo">
+                                <img src="{{ followee.avatar(32) }}" class="rounded-circle">
+                                <span class="us_name">{{ followee.username }}</span>
+                            </a>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

@@ -27,13 +27,22 @@ class User(BaseModel, UserMixin):
     dislikes = db.relationship(
         'Dislike', backref='user', lazy='dynamic', primaryjoin='User.id==Dislike.user_id', cascade="all,delete"
     )
-    # follow you (users list)
-    followers = db.relationship('Follow', backref="followee", foreign_keys="Follow.followee_id")
-    # you follow (users list)
-    followee = db.relationship('Follow', backref="follower", foreign_keys="Follow.follower_id")
+    # list of users that follow you
+    followers = db.relationship("Follow", backref="followee", foreign_keys="Follow.followee_id")
+    # list of users that you follow
+    following = db.relationship("Follow", backref="follower", foreign_keys="Follow.follower_id")
 
-    def is_following(self):
-        follower = db.session.query(Follow).filter(Follow.follower_id == self.id).first()
+    def is_following(self, current_user_id):
+        follower = (
+            db.session.query(Follow)
+            .filter(
+                db.and_(
+                    Follow.follower_id == self.id,
+                    Follow.followee_id == current_user_id
+                )
+            )
+            .first()
+        )
         return follower is not None
 
     def avatar(self, size):

@@ -46,10 +46,15 @@ def profile(username):
         form.facebook_url.data = user.profile.facebook_url
         form.bio.data = user.profile.bio
 
+    followers = [followee.followee for followee in user.following]
+    followees = [follower.follower for follower in user.followers]
+
     context = {
         "title": f"{user.username} - profile",
         "user": user,
-        "form": form
+        "form": form,
+        "followers": followers,
+        "followees": followees
     }
 
     return render_template("user/profile.html", **context)

@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required
 from ..post.forms import PostForm
 from .. import db
-from ..models import User, Post
+from ..models import User, Post, Follow
 from ..user.forms import ProfileForm
 
 
@@ -53,3 +53,39 @@ def profile(username):
     }
 
     return render_template("user/profile.html", **context)
+
+
+@bp.route('/<int:user_id>/follow', methods=['GET', 'POST'])
+@login_required
+def follow(user_id):
+    # Get the user by id from the database
+    user_wer = User.query.get_or_404(user_id)
+    wee_wer = Follow.query.filter_by(followee=current_user, follower=user_wer)
+
+    if wee_wer.count() > 0:
+        flash('You are already following a user!', category='error')
+    else:
+        go_follow = Follow(followee=current_user, follower=user_wer)
+        db.session.add(go_follow)
+        db.session.commit()
+        flash('You have followed to a user!', category='success')
+
+    return redirect(request.referrer)
+
+
+@bp.route('/<int:user_id>/unfollow', methods=['GET', 'POST'])
+@login_required
+def unfollow(user_id):
+    # Get the user by id from the database
+    user_wer = User.query.get_or_404(user_id)
+    wee_wer = Follow.query.filter_by(followee=current_user, follower=user_wer)
+
+    if wee_wer.count() > 0:
+        un_follow = wee_wer.first()
+        db.session.delete(un_follow)
+        db.session.commit()
+        flash('You have unfollowed a user!', category='success')
+    else:
+        flash('You are already unfollowed from the user!', category='error')
+
+    return redirect(request.referrer)

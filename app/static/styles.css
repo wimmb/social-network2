@@ -22,17 +22,34 @@ p {
     color: #ffffff;
 }
 
+.btn-fl,
 .btn-send {
-    background: #333;
-    color: #fff;
+    background: #333333;
+    color: #ffffff;
     padding: 0.375rem 1.5rem;
 }
 
 .btn-send:hover,
 .btn-send:focus,
-.btn-send:active {
-    background: #ddd;
-    color: #333;
+.btn-send:active,
+.btn-fl:hover,
+.btn-fl:focus,
+.btn-fl:active {
+    background: #dddddd;
+    color: #333333;
+}
+
+.btn-unfl {
+    background: #dddddd;
+    color: #333333;
+    padding: 0.375rem 1.5rem;
+}
+
+.btn-unfl:hover,
+.btn-unfl:focus,
+.btn-unfl:active {
+    background: #333333;
+    color: #ffffff;
 }
 
 form .alert {

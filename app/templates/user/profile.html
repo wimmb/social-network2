@@ -15,7 +15,7 @@
                         <p><b>Email:</b> {{user.email}}</p>
                         <p class="small"><i>Last seen: {{ user.profile.last_seen.strftime('%Y-%m-%d %H:%M') }}</i></p>
                         {% if user != current_user %}
-                            {% if user.is_following(current_user.id) %}
+                            {% if user.is_following() %}
                             <p><a href="{{ url_for('user.unfollow', user_id=user.id) }}" class="btn bg-green btn-unfl mt-3">Unfollow</a></p>
                             {% else %}
                             <p><a href="{{ url_for('user.follow', user_id=user.id) }}" class="btn bg-green btn-fl mt-3">Follow</a></p>

@@ -2,7 +2,7 @@ from datetime import datetime
 from hashlib import md5
 
 from app import db
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -32,14 +32,12 @@ class User(BaseModel, UserMixin):
     # list of users that you follow
     following = db.relationship("Follow", backref="follower", foreign_keys="Follow.follower_id")
 
-    def is_following(self, current_user_id):
+    def is_following(self):
         follower = (
             db.session.query(Follow)
             .filter(
-                db.and_(
-                    Follow.follower_id == self.id,
-                    Follow.followee_id == current_user_id
-                )
+                Follow.followee_id == self.id,
+                Follow.follower_id == current_user.id
             )
             .first()
         )

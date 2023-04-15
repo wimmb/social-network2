@@ -46,8 +46,8 @@ def profile(username):
         form.facebook_url.data = user.profile.facebook_url
         form.bio.data = user.profile.bio
 
-    followers = [followee.followee for followee in user.following]
-    followees = [follower.follower for follower in user.followers]
+    followers = [follower.follower for follower in user.followers]
+    followees = [followee.followee for followee in user.following]
 
     context = {
         "title": f"{user.username} - profile",
@@ -63,14 +63,13 @@ def profile(username):
 @bp.route('/<int:user_id>/follow', methods=['GET', 'POST'])
 @login_required
 def follow(user_id):
-    # Get the user by id from the database
-    user_wer = User.query.get_or_404(user_id)
-    wee_wer = Follow.query.filter_by(followee=current_user, follower=user_wer)
+    user = User.query.get_or_404(user_id)
+    check_f = Follow.query.filter_by(follower=current_user, followee=user)
 
-    if wee_wer.count() > 0:
+    if check_f.count() > 0:
         flash('You are already following a user!', category='error')
     else:
-        go_follow = Follow(followee=current_user, follower=user_wer)
+        go_follow = Follow(follower=current_user, followee=user)
         db.session.add(go_follow)
         db.session.commit()
         flash('You have followed to a user!', category='success')
@@ -81,12 +80,11 @@ def follow(user_id):
 @bp.route('/<int:user_id>/unfollow', methods=['GET', 'POST'])
 @login_required
 def unfollow(user_id):
-    # Get the user by id from the database
-    user_wer = User.query.get_or_404(user_id)
-    wee_wer = Follow.query.filter_by(followee=current_user, follower=user_wer)
+    user = User.query.get_or_404(user_id)
+    check_f = Follow.query.filter_by(follower=current_user, followee=user)
 
-    if wee_wer.count() > 0:
-        un_follow = wee_wer.first()
+    if check_f.count() > 0:
+        un_follow = check_f.first()
         db.session.delete(un_follow)
         db.session.commit()
         flash('You have unfollowed a user!', category='success')

@@ -37,6 +37,9 @@ def create_app():
     from .faker import bp as fake_bp
     app.register_blueprint(fake_bp)
 
+    from .api import bp as api_bp
+    app.register_blueprint(api_bp)
+
     from . import models # noqa
 
     @login_manager.user_loader

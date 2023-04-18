@@ -11,7 +11,13 @@ user_service = UserService()
 
 class UsersResource(Resource):
     def get(self):
-        users = db.session.query(User).all()
+        ordered = request.args.get('ordered', type=bool)
+
+        users_query = db.session.query(User)
+        if ordered:
+            users_query = users_query.order_by(User.created_at.asc())
+
+        users = users_query.all()
         return jsonify(UserSchema().dump(users, many=True))
 
     def post(self):

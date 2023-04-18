@@ -36,3 +36,14 @@ class UserService:
         db.session.commit()
 
         return user
+
+    def delete(self, user_id):
+        user = self.get_by_id(user_id)
+        profile = user.profile
+        db.session.delete(profile)
+        db.session.commit()
+
+        db.session.delete(user)
+        db.session.commit()
+
+        return True

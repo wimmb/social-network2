@@ -36,4 +36,5 @@ class UserResource(Resource):
         return jsonify(UserSchema().dump(user, many=False))
 
     def delete(self, user_id):
-        pass
+        status = user_service.delete(user_id)
+        return jsonify(status=status)

@@ -33,4 +33,4 @@ class UserSchema(BaseSchema):
         # fields = ('id',) # только id
         exclude = ('password',)
 
-    profile = Nested(ProfileSchema(), many=False, dump_only=True)
+    profile = Nested(ProfileSchema(), many=False)

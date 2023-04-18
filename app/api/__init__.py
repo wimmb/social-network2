@@ -8,4 +8,4 @@ api = Api(bp)
 
 
 api.add_resource(UsersResource, '/users', endpoint="users_list")
-api.add_resource(UserResource, '/user/<int:user_id>', endpoint="user_details")
+api.add_resource(UserResource, '/users/<int:user_id>', endpoint="user_details")

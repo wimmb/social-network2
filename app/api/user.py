@@ -27,3 +27,13 @@ class UserResource(Resource):
     def get(self, user_id):
         user = user_service.get_by_id(user_id)
         return jsonify(UserSchema().dump(user, many=False))
+
+    def put(self, user_id):
+        json_data = request.get_json()
+        json_data['id'] = user_id
+
+        user = user_service.update(json_data)
+        return jsonify(UserSchema().dump(user, many=False))
+
+    def delete(self, user_id):
+        pass

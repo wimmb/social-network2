@@ -1,6 +1,6 @@
 from app import db
 from app.models import User, Profile, Post
-from app.schemas import UserSchema
+from app.schemas import UserSchema, PostSchema
 
 
 class UserService:
@@ -59,4 +59,17 @@ class PostService:
         post = Post(title=kwargs.get('title'), content=kwargs.get('content'), author_id=kwargs.get('author_id'))
         db.session.add(post)
         db.session.commit()
+        return post
+
+    def update(self, data):
+        post = self.get_by_id(data['id'])
+        data['author_id'] = post.author_id
+
+        post_dict = PostSchema().dump(post)
+        post_dict.update(data)
+
+        post = PostSchema().load(post_dict)
+        db.session.add(post)
+        db.session.commit()
+
         return post

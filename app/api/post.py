@@ -3,10 +3,11 @@ from flask import jsonify, request
 from app import db
 from app.models import Post
 from app.schemas import PostSchema
-from app.services import PostService
+from app.services import PostService, UserService
 
 
 post_service = PostService()
+user_service = UserService()
 
 
 class PostsResource(Resource):
@@ -34,13 +35,13 @@ class PostResource(Resource):
         post = post_service.get_by_id(post_id)
         return jsonify(PostSchema().dump(post, many=False))
 
-    # def put(self, user_id):
-    #     json_data = request.get_json()
-    #     json_data['id'] = user_id
-    #
-    #     user = user_service.update(json_data)
-    #     return jsonify(UserSchema().dump(user, many=False))
-    #
+    def put(self, post_id):
+        json_data = request.get_json()
+        json_data['id'] = post_id
+
+        post = post_service.update(json_data)
+        return jsonify(PostSchema().dump(post, many=False))
+
     # def delete(self, user_id):
     #     status = user_service.delete(user_id)
     #     return jsonify(status=status)

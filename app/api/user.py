@@ -22,7 +22,7 @@ class UsersResource(Resource):
 
     def post(self):
         json_data = request.get_json()
-        user = user_service.create(json_data)
+        user = user_service.create(**json_data)
 
         response = jsonify(UserSchema().dump(user, many=False))
         response.status_code = 201

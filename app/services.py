@@ -1,6 +1,6 @@
 from app import db
-from app.models import User, Profile
-from app.schemas import UserSchema
+from app.models import User, Profile, Post
+from app.schemas import UserSchema, PostSchema
 
 
 class UserService:
@@ -47,3 +47,16 @@ class UserService:
         db.session.commit()
 
         return True
+
+
+class PostService:
+
+    def get_by_id(self, post_id):
+        post = db.session.query(Post).filter(Post.id == post_id).first_or_404()
+        return post
+
+    def create(self, **kwargs):
+        post = Post(title=kwargs.get('title'), content=kwargs.get('content'), author_id=kwargs.get('author_id'))
+        db.session.add(post)
+        db.session.commit()
+        return post

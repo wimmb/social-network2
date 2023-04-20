@@ -5,6 +5,9 @@ from app import db
 from app.models import Post, Like, Dislike
 from app.post import bp
 from app.post.forms import PostForm
+from ..services import PostService
+
+post_service = PostService()
 
 
 @bp.route('/create', methods=['GET', 'POST'])
@@ -14,10 +17,10 @@ def create():
 
     if request.method == "POST":
         if form.validate_on_submit():
-
-            post = Post(title=form.title.data, content=form.content.data, author=current_user)
-            db.session.add(post)
-            db.session.commit()
+            post_service.create(title=form.title.data, content=form.content.data, author_id=current_user.id)
+            # post = Post(title=form.title.data, content=form.content.data, author=current_user)
+            # db.session.add(post)
+            # db.session.commit()
             flash('Your post has been created!', 'success')
         else:
             title = form.title.data

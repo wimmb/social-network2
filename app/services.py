@@ -1,6 +1,6 @@
 from app import db
 from app.models import User, Profile, Post
-from app.schemas import UserSchema, PostSchema
+from app.schemas import UserSchema
 
 
 class UserService:

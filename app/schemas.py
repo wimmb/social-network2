@@ -40,4 +40,3 @@ class UserSchema(BaseSchema):
 
     profile = Nested(ProfileSchema(), many=False)
     post = Nested(PostSchema(), many=False)
-

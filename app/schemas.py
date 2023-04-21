@@ -2,7 +2,8 @@ from marshmallow import EXCLUDE
 from marshmallow.fields import Nested
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchemaOpts, SQLAlchemyAutoSchema
 from app import db
-from app.models import User, Profile, Post
+from app.models import User, Profile, Post, Like, Dislike
+from marshmallow.decorators import post_dump
 
 
 class BaseOpts(SQLAlchemyAutoSchemaOpts):
@@ -27,9 +28,34 @@ class ProfileSchema(BaseSchema):
         model = Profile
 
 
+class LikeSchema(BaseSchema):
+    class Meta:
+        model = Like
+
+
+class DislikeSchema(BaseSchema):
+    class Meta:
+        model = Dislike
+
+
 class PostSchema(BaseSchema):
     class Meta:
         model = Post
+
+    likes = Nested(LikeSchema(), many=True, dump_only=True)
+    dislikes = Nested(DislikeSchema(), many=True, dump_only=True)
+
+    @post_dump(pass_many=False)
+    def add_like_count(self, data, **kwargs):
+        data['like_count'] = len(data['likes'])
+        del data['likes']
+        return data
+
+    @post_dump(pass_many=False)
+    def add_dislike_count(self, data, **kwargs):
+        data['dislike_count'] = len(data['dislikes'])
+        del data['dislikes']
+        return data
 
 
 class UserSchema(BaseSchema):
@@ -39,4 +65,10 @@ class UserSchema(BaseSchema):
         exclude = ('password',)
 
     profile = Nested(ProfileSchema(), many=False)
-    post = Nested(PostSchema(), many=False)
+    posts = Nested(PostSchema(), many=True)
+
+    @post_dump(pass_many=False)
+    def add_dislike_count(self, data, **kwargs):
+        data['post_count'] = len(data['posts'])
+        del data['posts']
+        return data

@@ -68,7 +68,7 @@ class UserSchema(BaseSchema):
     posts = Nested(PostSchema(), many=True)
 
     @post_dump(pass_many=False)
-    def add_dislike_count(self, data, **kwargs):
+    def add_post_count(self, data, **kwargs):
         data['post_count'] = len(data['posts'])
         del data['posts']
         return data

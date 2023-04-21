@@ -42,6 +42,6 @@ class PostResource(Resource):
         post = post_service.update(json_data)
         return jsonify(PostSchema().dump(post, many=False))
 
-    # def delete(self, user_id):
-    #     status = user_service.delete(user_id)
-    #     return jsonify(status=status)
+    def delete(self, post_id):
+        status = post_service.delete(post_id)
+        return jsonify(status=status)

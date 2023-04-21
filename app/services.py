@@ -73,3 +73,11 @@ class PostService:
         db.session.commit()
 
         return post
+
+    def delete(self, post_id):
+        post = self.get_by_id(post_id)
+
+        db.session.delete(post)
+        db.session.commit()
+
+        return True

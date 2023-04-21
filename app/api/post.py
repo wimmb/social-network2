@@ -3,11 +3,10 @@ from flask import jsonify, request
 from app import db
 from app.models import Post
 from app.schemas import PostSchema
-from app.services import PostService, UserService
+from app.services import PostService
 
 
 post_service = PostService()
-user_service = UserService()
 
 
 class PostsResource(Resource):

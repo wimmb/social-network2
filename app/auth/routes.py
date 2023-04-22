@@ -45,7 +45,15 @@ def register():
             flash(f"This email ({form.username.data}) is already taken!", category="error")
             return redirect(url_for("auth.register"))
 
-        user_service.create(username=form.username.data, email=form.email.data, password=form.password.data)
+        user_service.create(
+            username=form.username.data,
+            email=form.email.data,
+            password=form.password.data,
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
+            linkedin_url=form.linkedin_url.data,
+            facebook_url=form.facebook_url.data
+        )
         # user = User(
         #     username=form.username.data,
         #     email=form.email.data

@@ -20,7 +20,13 @@ class UserService:
         db.session.add(user)
         db.session.commit()
 
-        profile = Profile(user_id=user.id)
+        profile = Profile(
+            user_id=user.id,
+            first_name=kwargs.get('first_name'),
+            last_name=kwargs.get('last_name'),
+            linkedin_url=kwargs.get('linkedin_url'),
+            facebook_url=kwargs.get('facebook_url')
+        )
         db.session.add(profile)
         db.session.commit()
 

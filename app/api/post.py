@@ -24,6 +24,7 @@ class PostsResource(Resource):
         author_id = request.args.get('author_id', type=int)
 
         json_data = request.get_json()
+
         if author_id:
             json_data['author_id'] = author_id
 

@@ -11,17 +11,22 @@ post_service = PostService()
 
 class PostsResource(Resource):
     def get(self):
-        ordered = request.args.get('ordered', type=bool)
+        author_id = request.args.get('author_id', type=int)
 
         posts_query = db.session.query(Post)
-        if ordered:
-            posts_query = posts_query.order_by(Post.created_at.asc())
+        if author_id:
+            posts_query = posts_query.filter(Post.author_id == author_id)
 
         posts = posts_query.all()
         return jsonify(PostSchema().dump(posts, many=True))
 
     def post(self):
+        author_id = request.args.get('author_id', type=int)
+
         json_data = request.get_json()
+        if author_id:
+            json_data['author_id'] = author_id
+
         post = post_service.create(**json_data)
 
         response = jsonify(PostSchema().dump(post, many=False))

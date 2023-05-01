@@ -12,10 +12,19 @@ post_service = PostService()
 class PostsResource(Resource):
     def get(self):
         author_id = request.args.get('author_id', type=int)
+        post_id = request.args.get('post_id', type=int)
 
         posts_query = db.session.query(Post)
         if author_id:
             posts_query = posts_query.filter(Post.author_id == author_id)
+
+        if author_id and post_id:
+            posts_query = posts_query.filter(
+                Post.author_id == author_id,
+                Post.id == post_id
+            )
+            post = posts_query.first()
+            return jsonify(PostSchema().dump(post, many=False))
 
         posts = posts_query.all()
         return jsonify(PostSchema().dump(posts, many=True))

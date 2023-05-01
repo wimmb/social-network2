@@ -61,11 +61,10 @@ class PostSchema(BaseSchema):
 class UserSchema(BaseSchema):
     class Meta:
         model = User
-        # fields = ('id',) # только id
         exclude = ('password',)
 
     profile = Nested(ProfileSchema(), many=False)
-    posts = Nested(PostSchema(), many=True)
+    posts = Nested(PostSchema(), many=True, dump_only=True)
 
     @post_dump(pass_many=False)
     def add_post_count(self, data, **kwargs):

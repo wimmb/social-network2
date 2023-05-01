@@ -1,12 +1,13 @@
 from flask_restful import Resource
 from flask import jsonify, request
 from app import db
-from app.models import User
-from app.schemas import UserSchema
-from app.services import UserService
+from app.models import User, Profile
+from app.schemas import UserSchema, ProfileSchema
+from app.services import UserService, ProfileService
 
 
 user_service = UserService()
+profile_service = ProfileService()
 
 
 class UsersResource(Resource):
@@ -44,3 +45,45 @@ class UserResource(Resource):
     def delete(self, user_id):
         status = user_service.delete(user_id)
         return jsonify(status=status)
+
+
+class ProfilesResource(Resource):
+
+    def get(self):
+        profile_id = request.args.get('profile_id', type=int)
+        user_id = request.args.get('user_id', type=int)
+
+        profiles_query = db.session.query(Profile)
+
+        if profile_id:
+            profiles_query = profiles_query.filter(Profile.id == profile_id)
+            profile = profiles_query.first()
+            return jsonify(ProfileSchema().dump(profile, many=False))
+
+        if user_id:
+            profiles_query = profiles_query.filter(Profile.user_id == user_id)
+            profile = profiles_query.first()
+            return jsonify(ProfileSchema().dump(profile, many=False))
+
+        profiles = profiles_query.all()
+        return jsonify(ProfileSchema().dump(profiles, many=True))
+
+    def put(self):
+        profile_id = request.args.get('profile_id', type=int)
+        # user_id = request.args.get('user_id', type=int)
+
+        json_data = request.get_json()
+
+        if profile_id:
+            json_data['id'] = profile_id
+            profile = profile_service.update(json_data)
+            return jsonify(ProfileSchema().dump(profile, many=False))
+
+        # if user_id:
+        #     json_data['user_id'] = user_id
+        #     profile = profile_service.update(json_data)
+        #     return jsonify(ProfileSchema().dump(profile, many=False))
+
+        response = jsonify(error="Profile not found")
+        response.status_code = 400
+        return response

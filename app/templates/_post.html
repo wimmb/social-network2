@@ -20,7 +20,7 @@
                 </a>
                 {% if request.path == url_for('user.blog') %}
                     {% if current_user == post.author %}
-                        <a href="{{ url_for('post.delete', post_id=post.id) }}" class="btn btn-sm btn-outline-primary">
+                        <a href="{{ url_for('post.delete', post_id=post.id) }}" class="btn btn-sm btn-outline-dark">
                             <i class="fas fa-trash-alt"></i> Delete
                         </a>
                     {% endif %}

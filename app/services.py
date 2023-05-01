@@ -1,6 +1,6 @@
 from app import db
-from app.models import User, Profile, Post
-from app.schemas import UserSchema, PostSchema
+from app.models import User, Profile, Post, Like, Dislike
+from app.schemas import UserSchema, PostSchema, ProfileSchema
 
 
 class UserService:
@@ -87,3 +87,35 @@ class PostService:
         db.session.commit()
 
         return True
+
+
+class ProfileService:
+
+    def get_by_id(self, profile_id):
+        profile = db.session.query(Profile).filter(Profile.id == profile_id).first_or_404()
+        return profile
+
+    def update(self, data):
+        profile = self.get_by_id(data['id'])
+        data['id'] = profile.id
+        data['user_id'] = profile.user_id
+
+        profile = ProfileSchema().load(data)
+        db.session.add(profile)
+        db.session.commit()
+
+        return profile
+
+
+class LikeService:
+    def create(self, **kwargs):
+        like_post = Like(user_id=kwargs.get('user_id'), post_id=kwargs.get('post_id'))
+        db.session.add(like_post)
+        db.session.commit()
+
+
+class DislikeService:
+    def create(self, **kwargs):
+        dislike_post = Dislike(user_id=kwargs.get('user_id'), post_id=kwargs.get('post_id'))
+        db.session.add(dislike_post)
+        db.session.commit()

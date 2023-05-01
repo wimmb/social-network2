@@ -66,7 +66,7 @@ class ProfilesResource(Resource):
             return jsonify(ProfileSchema().dump(profile, many=False))
 
         profiles = profiles_query.all()
-        return jsonify(ProfileSchema().dump(profiles, many=True))
+        return jsonify(ProfileSchema(only=('user_id', 'facebook_url', 'linkedin_url')).dump(profiles, many=True))
 
     def put(self):
         profile_id = request.args.get('profile_id', type=int)

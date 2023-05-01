@@ -1,13 +1,14 @@
 from flask import flash, redirect, request, url_for, render_template
 from flask_login import login_required, current_user
 
-from app import db
 from app.models import Post, Like, Dislike
 from app.post import bp
 from app.post.forms import PostForm
-from ..services import PostService
+from ..services import PostService, LikeService, DislikeService
 
 post_service = PostService()
+like_service = LikeService()
+dislike_service = DislikeService()
 
 
 @bp.route('/create', methods=['GET', 'POST'])
@@ -47,9 +48,10 @@ def like(post_id):
         flash('You have already liked this post!', category='error')
     else:
         # Create a new like object and add to DB
-        like_post = Like(user=current_user, post=post)
-        db.session.add(like_post)
-        db.session.commit()
+        like_service.create(user_id=current_user.id, post_id=post.id)
+        # like_post = Like(user=current_user, post=post)
+        # db.session.add(like_post)
+        # db.session.commit()
         flash('You have liked this post!', category='success')
     return redirect(request.referrer)
 
@@ -64,9 +66,10 @@ def dislike(post_id):
         flash('You have already disliked this post!', category='error')
     else:
         # Create a new dislike object and add to DB
-        dislike_post = Dislike(user=current_user, post=post)
-        db.session.add(dislike_post)
-        db.session.commit()
+        dislike_service.create(user_id=current_user.id, post_id=post.id)
+        # dislike_post = Dislike(user=current_user, post=post)
+        # db.session.add(dislike_post)
+        # db.session.commit()
         flash('You have disliked this post!', category='success')
     return redirect(request.referrer)
 

@@ -32,6 +32,7 @@ class PostsResource(Resource):
         posts = posts_query.all()
         return jsonify(PostSchema().dump(posts, many=True))
 
+    @jwt_required()
     def post(self):
         author_id = request.args.get('author_id', type=int)
 
@@ -48,13 +49,13 @@ class PostsResource(Resource):
 
 
 class PostResource(Resource):
-    method_decorators = [jwt_required()]
+    # method_decorators = [jwt_required()]
 
     def get(self, post_id):
         post = post_service.get_by_id(post_id)
         return jsonify(PostSchema().dump(post, many=False))
 
-    # @jwt_required()
+    @jwt_required()
     def put(self, post_id):
         json_data = request.get_json()
         json_data['id'] = post_id
@@ -62,6 +63,7 @@ class PostResource(Resource):
         post = post_service.update(json_data)
         return jsonify(PostSchema().dump(post, many=False))
 
+    @jwt_required()
     def delete(self, post_id):
         status = post_service.delete(post_id)
         return jsonify(status=status)
@@ -80,6 +82,7 @@ class LikesResource(Resource):
         likes = likes_query.all()
         return jsonify(LikeSchema().dump(likes, many=True))
 
+    @jwt_required()
     def post(self):
         json_data = request.get_json()
 
@@ -120,6 +123,7 @@ class DislikesResource(Resource):
         dislikes = dislikes_query.all()
         return jsonify(DislikeSchema().dump(dislikes, many=True))
 
+    @jwt_required()
     def post(self):
         json_data = request.get_json()
 

@@ -75,7 +75,6 @@ class ProfilesResource(Resource):
     @jwt_required()
     def put(self):
         profile_id = request.args.get('profile_id', type=int)
-        # user_id = request.args.get('user_id', type=int)
 
         json_data = request.get_json()
 
@@ -83,11 +82,6 @@ class ProfilesResource(Resource):
             json_data['id'] = profile_id
             profile = profile_service.update(json_data)
             return jsonify(ProfileSchema().dump(profile, many=False))
-
-        # if user_id:
-        #     json_data['user_id'] = user_id
-        #     profile = profile_service.update(json_data)
-        #     return jsonify(ProfileSchema().dump(profile, many=False))
 
         response = jsonify(error="Profile not found")
         response.status_code = 400

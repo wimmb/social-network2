@@ -5,11 +5,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from datetime import datetime
+from flask_jwt_extended import JWTManager
 
 
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
+jwt = JWTManager()
 
 
 def create_app():
@@ -21,6 +23,7 @@ def create_app():
     migrate.init_app(app, db)
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
+    jwt.init_app(app)
 
     from .main import bp as main_bp
     app.register_blueprint(main_bp)

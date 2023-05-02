@@ -4,6 +4,7 @@ from app import db
 from app.models import Post, Like, Dislike
 from app.schemas import PostSchema, LikeSchema, DislikeSchema
 from app.services import PostService, LikeService, DislikeService
+from flask_jwt_extended import jwt_required
 
 
 post_service = PostService()
@@ -47,10 +48,13 @@ class PostsResource(Resource):
 
 
 class PostResource(Resource):
+    method_decorators = [jwt_required()]
+
     def get(self, post_id):
         post = post_service.get_by_id(post_id)
         return jsonify(PostSchema().dump(post, many=False))
 
+    # @jwt_required()
     def put(self, post_id):
         json_data = request.get_json()
         json_data['id'] = post_id

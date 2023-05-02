@@ -4,6 +4,7 @@ from app import db
 from app.models import User, Profile
 from app.schemas import UserSchema, ProfileSchema
 from app.services import UserService, ProfileService
+from flask_jwt_extended import jwt_required
 
 
 user_service = UserService()
@@ -21,6 +22,7 @@ class UsersResource(Resource):
         users = users_query.all()
         return jsonify(UserSchema().dump(users, many=True))
 
+    @jwt_required()
     def post(self):
         json_data = request.get_json()
         user = user_service.create(**json_data)
@@ -35,6 +37,7 @@ class UserResource(Resource):
         user = user_service.get_by_id(user_id)
         return jsonify(UserSchema().dump(user, many=False))
 
+    @jwt_required()
     def put(self, user_id):
         json_data = request.get_json()
         json_data['id'] = user_id
@@ -42,6 +45,7 @@ class UserResource(Resource):
         user = user_service.update(json_data)
         return jsonify(UserSchema().dump(user, many=False))
 
+    @jwt_required()
     def delete(self, user_id):
         status = user_service.delete(user_id)
         return jsonify(status=status)
@@ -68,6 +72,7 @@ class ProfilesResource(Resource):
         profiles = profiles_query.all()
         return jsonify(ProfileSchema(only=('user_id', 'facebook_url', 'linkedin_url')).dump(profiles, many=True))
 
+    @jwt_required()
     def put(self):
         profile_id = request.args.get('profile_id', type=int)
         # user_id = request.args.get('user_id', type=int)

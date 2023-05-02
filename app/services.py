@@ -112,6 +112,7 @@ class LikeService:
         like_post = Like(user_id=kwargs.get('user_id'), post_id=kwargs.get('post_id'))
         db.session.add(like_post)
         db.session.commit()
+        return like_post
 
 
 class DislikeService:
@@ -119,3 +120,4 @@ class DislikeService:
         dislike_post = Dislike(user_id=kwargs.get('user_id'), post_id=kwargs.get('post_id'))
         db.session.add(dislike_post)
         db.session.commit()
+        return dislike_post

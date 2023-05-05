@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 
+basedir = os.path.join(os.path.dirname(__file__))
 load_dotenv()
 
 

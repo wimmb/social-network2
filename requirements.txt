@@ -21,7 +21,9 @@ MarkupSafe==2.1.2
 marshmallow==3.19.0
 marshmallow-sqlalchemy==0.29.0
 mccabe==0.7.0
+numpy==1.24.3
 packaging==23.1
+pandas==2.0.1
 psycopg2-binary==2.9.6
 pycodestyle==2.10.0
 pyflakes==3.0.1
@@ -32,5 +34,6 @@ pytz==2023.3
 six==1.16.0
 SQLAlchemy==2.0.7
 typing_extensions==4.5.0
+tzdata==2023.3
 Werkzeug==2.2.3
 WTForms==3.0.1

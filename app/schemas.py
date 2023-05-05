@@ -27,6 +27,8 @@ class ProfileSchema(BaseSchema):
     class Meta:
         model = Profile
 
+    # full_name = fields.String(dump_only=True)
+
 
 class LikeSchema(BaseSchema):
     class Meta:

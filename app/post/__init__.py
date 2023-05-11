@@ -1,6 +1,6 @@
 import click
 from flask import Blueprint
-from sqlalchemy import func
+from sqlalchemy import func, distinct
 from pathlib import Path
 import pandas as pd
 import config
@@ -21,11 +21,14 @@ def extract_posts(user_id):
         return
 
     user_posts = (
-        db.session.query(Post.title, func.count('*'), func.count('*'), Post.created_at)
-        .join(Like, Post.id == Like.post_id)
-        .join(Dislike, Post.id == Dislike.post_id)
-        .group_by(Post.title, Post.created_at)
+        db.session.query(Post.title,
+                         func.count(distinct(Like.user_id)),
+                         func.count(distinct(Dislike.user_id)),
+                         Post.created_at)
+        .outerjoin(Like, Post.id == Like.post_id)
+        .outerjoin(Dislike, Post.id == Dislike.post_id)
         .filter(Post.author_id == user_id)
+        .group_by(Post.title, Post.created_at)
         .all()
     )
 

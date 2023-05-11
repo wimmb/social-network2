@@ -14,9 +14,9 @@ from . import routes # noqa
 @bp.cli.command('extract_users')
 def extract_users():
     users_info = (
-        db.session.query(User.username, User.email, Profile.full_name, func.count('*'))
+        db.session.query(User.username, User.email, Profile.full_name, func.count(Post.id))
         .join(Profile, Profile.user_id == User.id)
-        .join(Post, Post.author_id == User.id)
+        .outerjoin(Post, Post.author_id == User.id)
         .group_by(User.username, User.email, Profile.full_name)
         .all()
     )
